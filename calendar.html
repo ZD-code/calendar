@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>日历</title>
+	<style>
+	*{padding:0;margin:0;}
+		.calendar{
+			width:212px;
+			overflow: hidden;
+			box-sizing: border-box;
+			margin:50px auto 0;
+			border: 1px solid #888;
+		}
+		.title{
+			border-bottom: 1px solid #aaa;
+			height:32px;
+			line-height: 32px;
+			position: relative;
+			text-align:center;
+		}
+		.left{
+			position:absolute;
+			left:0;
+			top:0;
+			bottom:0;
+			margin:auto;
+			padding:0 4px;
+			height: 32px;
+			line-height: 32px;
+			font-size:14px;
+			cursor: pointer;
+		}
+		.right{
+			position: absolute;
+			right:0;
+			top:0;
+			bottom:0;
+			margin:auto;
+			padding:0 4px;
+			height:32px;
+			line-height: 32px;
+			font-size:14px;
+			cursor: pointer;
+		}
+		.current{
+			color:#fff;
+			background: blue;
+		}
+		.otherDay{
+			color:#ccc;
+		}
+		.clickDay{
+			color:#fff;
+			background: orange;
+		}
+		table{
+			border-collapse: collapse;
+		}
+		tr th, tr td{
+			text-align: center;
+			height:32px;
+			line-height: 32px;
+			width:30px;
+		}
+		tr td{
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<div class="calendar" id="calendar">
+		<div class="title">
+			<div class="left">&lt;</div>
+			<div class="y_m"></div>
+			<div class="right">&gt;</div>
+		</div>
+		<div class="tbody">
+			<table align="center" width="100%" border="0">
+				<tbody>
+					<tr>
+						<th>日</th>
+						<th>一</th>
+						<th>二</th>
+						<th>三</th>
+						<th>四</th>
+						<th>五</th>
+						<th>六</th>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+			
+		</div>
+	</div>
+
+	<script>
+		
+	
+		function date(){
+			return new Date();
+		}
+
+		function setDate(date){
+			return new Date(date);
+		}
+		/*渲染头部*/
+		
+			var calendar = document.getElementById('calendar');
+
+			var tbody = calendar.getElementsByTagName('tbody')[0];
+
+			var title = calendar.getElementsByClassName('y_m')[0];
+
+			var nowYear = date().getFullYear();
+
+			var nowMonth = date().getMonth()+1;
+
+			title.innerHTML = nowYear+'年'+nowMonth;
+		
+			/*设置表格中的数据*/
+			var thisDay = new Date(nowYear,nowMonth-1,1);  //当月第一天的周几
+
+			var tds = calendar.getElementsByTagName('td');
+
+
+
+			for (var i = 0; i < tds.length; i++) {
+				var _thisDay = thisDay.getDay();
+				tds[i].innerHTML = new Date(nowYear,nowMonth-1, i + 1 - _thisDay).getDate(); //渲染数据
+				
+				/*添加样式*/
+				if(formatDate(new Date()) == formatDate(new Date(nowYear,nowMonth-1, i + 1 - _thisDay))){
+					tds[i].className='current';
+				}else if(formatDate(new Date(nowYear, nowMonth - 1, 1)).substr(0,7) == formatDate(new Date(nowYear,nowMonth-1, i + 1 - _thisDay)).substr(0,7)){
+					tds[i].className = 'clickDay'
+				}else{
+					tds[i].className = 'otherDay';
+				}
+			}
+
+
+			function formatDate(date){
+				var year = date.getFullYear();
+				var month = date.getMonth()+1;
+				var day = date.getDate();
+				month = month>9?month: '0'+month;
+				day = day>9?day:'0'+day;
+				return year+'/'+month+'/'+day;
+			}
+			
+	</script>
+</body>
+</html>
